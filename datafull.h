@@ -15,17 +15,56 @@ public:
 
     std::map<std::string, DataTrack> vehicles;
 
+    void printInfo()
+    {
+        for( auto &vin: vehicles)
+        {
+            int num = vin.second.points.size();
+            std::cerr << "vin=" << vin.first << " num=" << num << std::endl;
+            //vin.second.print();
+        }
+    }
+
+    void sortAll()
+    {
+        for( auto &vin: vehicles)
+        {
+            std::cerr<<"---------------Start sort"<<std::endl;
+            vin.second.sort();
+            std::cerr<<"---------------End sort"<<std::endl;
+        }
+    }
+
     void readFile(const std::string &fileName)
     {
-        std::fstream file(fileName);
+        std::ifstream file(fileName);
+        int num = 0;
         if (file)
         {
-            DataPoint point;
-            //point.read(file);
-            std::string value;
-            file >> value;
-            qDebug(value.c_str());
+            for(;;)
+            //for(int k = 0; k < 20; k++)
+            {
+                DataPoint point;
+                bool res = point.read(file);
+
+                std::string vin = point.vin;
+
+                vehicles[vin].addPoint(point);
+
+                if( !res )
+                {
+                    std::cerr<<"=================";
+                    break;
+                }
+                num++;
+            }
         }
+
+        std::cerr<<"====== num point="<<num<<std::endl;
+
+        //printInfo();
+        sortAll();
+
     }
 
     void process_all(const std::string& fileList)
@@ -37,9 +76,10 @@ public:
             std::string name;
             while(file >> name)
             {
-                qDebug(name.c_str());
                 readFile(basePath + name);
             }
+
+            printInfo();
         }
         else
         {

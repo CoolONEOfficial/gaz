@@ -2,6 +2,7 @@
 #include "datafull.h"
 #include <string>
 #include <fstream>
+#include <clocale>
 
 Backend::Backend(QObject *parent) :
     QObject(parent)
@@ -34,6 +35,8 @@ void Backend::onMapComplete()
 //    file<<"test";
 //    file.close();
 
+    std::setlocale(LC_ALL, "C");
+
     datafull.process_all(fileList);
 
     VisualTrack tr;
@@ -45,7 +48,7 @@ void Backend::onMapComplete()
         auto p = points[mPoint];
         double lat = p.latitude;
         double lon = p.longitude;
-        //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
+        std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr.points << createVisualPoint(p.longitude, p.latitude);
     }
 

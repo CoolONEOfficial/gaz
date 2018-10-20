@@ -100,6 +100,9 @@ public:
             //qDebug(s.c_str());
         }
 
+        std::cerr<<"LAT="<<lines[7]<<std::endl;
+        std::cerr<<"LON="<<lines[8]<<std::endl;
+
         latitude = std::stod(lines[7]);
         longitude = std::stod(lines[8]);
         vin = lines[5];

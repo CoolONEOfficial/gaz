@@ -106,6 +106,8 @@ public:
         timestamp = std::stoi(lines[1]);
         gps_timestamp = std::stoi(lines[14]);
 
+        if( latitude > 100 || longitude > 100 )
+            return false;
         //print();
         //std::cout<<"hello bbb";
 

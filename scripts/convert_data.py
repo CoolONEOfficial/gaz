@@ -53,8 +53,8 @@ def process_file(file_base_name):
                 if num == 1:
                     continue
 
-                row[id_lat] = int(row[id_lat])/1000/3600
-                row[id_long] = int(row[id_long])/1000/3600
+                row[id_lat] = float(row[id_lat])/1000.0/3600
+                row[id_long] = float(row[id_long])/1000.0/3600
 
                 row[id_time] = convert_time(row[id_time])
                 row[id_time_gps] = convert_time(row[id_time_gps])

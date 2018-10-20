@@ -25,9 +25,11 @@ void Backend::onMapComplete()
 
     DataFull datafull;
 
-//    std::string fileList = "/home/coolone/gaz/data/result/processed_files.txt";
+#ifndef __APPLE__
+    std::string fileList = "/home/coolone/gaz/data/result/processed_files.txt";
+#else
     std::string fileList = "/Users/valery/projects/gaz/gaz/data/result/processed_files.txt";
-
+#endif
 //    std::ofstream file("../../../../gaz/data/result/aaa.txt");
 //    file<<"test";
 //    file.close();
@@ -38,7 +40,7 @@ void Backend::onMapComplete()
 
     auto &points = datafull.vehicles["X9600000000000430"].points;
 
-    for(int mPoint = 0; mPoint < 500; mPoint++) {
+    for(int mPoint = 0; mPoint < 1000; mPoint++) {
 
         auto p = points[mPoint];
         double lat = p.latitude;

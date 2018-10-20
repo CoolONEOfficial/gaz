@@ -49,13 +49,15 @@ public:
 
                 std::string vin = point.vin;
 
-                vehicles[vin].addPoint(point);
 
                 if( !res )
                 {
                     std::cerr<<"=================";
                     break;
                 }
+
+                vehicles[vin].addPoint(point);
+
                 num++;
             }
         }
@@ -69,9 +71,11 @@ public:
 
     void process_all(const std::string& fileList)
     {
-        //std::string basePath = "/home/coolone/gaz/data/result/";
+#ifndef __APPLE__
+        std::string basePath = "/home/coolone/gaz/data/result/";
+#else
         std::string basePath = "/Users/valery/projects/gaz/gaz/data/result/";
-
+#endif
         std::ifstream file(fileList);
         if (file)
         {

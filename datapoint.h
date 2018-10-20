@@ -78,7 +78,7 @@ public:
         return timestamp < other.timestamp;
     }
 
-    bool read(std::ifstream &file)
+    int read(std::ifstream &file)
     {
         //qDebug("-----Point-------");
 
@@ -89,7 +89,7 @@ public:
         {
             std::getline(file, lines[k]);
             if( k==0 && lines[0].empty() )
-                return false;
+                return -1;
 
 
             // qDebug(lines[k].c_str());
@@ -100,8 +100,8 @@ public:
             //qDebug(s.c_str());
         }
 
-        std::cerr<<"LAT="<<lines[7]<<std::endl;
-        std::cerr<<"LON="<<lines[8]<<std::endl;
+        //std::cerr<<"LAT="<<lines[7]<<std::endl;
+        //std::cerr<<"LON="<<lines[8]<<std::endl;
 
         latitude = std::stod(lines[7]);
         longitude = std::stod(lines[8]);
@@ -110,7 +110,7 @@ public:
         gps_timestamp = std::stoi(lines[14]);
 
         if( latitude > 100 || longitude > 100 )
-            return false;
+            return 0;
         //print();
         //std::cout<<"hello bbb";
 
@@ -119,7 +119,7 @@ public:
 
 
         //qDebug("-------------------");
-        return true;
+        return 1;
 
 
 

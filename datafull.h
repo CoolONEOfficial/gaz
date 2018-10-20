@@ -31,6 +31,9 @@ public:
         {
             std::cerr<<"---------------Start sort"<<std::endl;
             vin.second.sort();
+
+
+
             std::cerr<<"---------------End sort"<<std::endl;
         }
     }
@@ -45,19 +48,21 @@ public:
             //for(int k = 0; k < 20; k++)
             {
                 DataPoint point;
-                bool res = point.read(file);
+                int res = point.read(file);
 
                 std::string vin = point.vin;
 
 
-                if( !res )
+                if( res < 0 )
                 {
                     std::cerr<<"=================";
                     break;
                 }
 
-                vehicles[vin].addPoint(point);
-
+                if(res > 0)
+                {
+                    vehicles[vin].addPoint(point);
+                }
                 num++;
             }
         }

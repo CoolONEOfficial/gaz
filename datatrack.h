@@ -20,6 +20,10 @@ public:
     void sort()
     {
         std::sort(points.begin(),points.end());
+        int min = points[0].timestamp;
+        int max = points[points.size()-1].timestamp;
+
+        std::cerr<<"---------- Time delta="<<max-min<<std::endl;
     }
 
     void print()

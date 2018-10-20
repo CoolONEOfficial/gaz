@@ -43,14 +43,16 @@ void Backend::onMapComplete()
 
     auto &points = datafull.vehicles["X9600000000000430"].points;
 
-    for(int mPoint = 0; mPoint < 1000; mPoint++) {
+    for(int mPoint = 0; mPoint < 50000; mPoint++) {
 
         auto p = points[mPoint];
         double lat = p.latitude;
         double lon = p.longitude;
-        std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
+        //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr.points << createVisualPoint(p.longitude, p.latitude);
     }
+
+    std::cerr<<"--------- Finish add points"<<std::endl;
 
     //tr.points
 //            << createVisualPoint(55.76880888888889, 37.499275555555556)
@@ -61,4 +63,6 @@ void Backend::onMapComplete()
    // 43.881080000000004);
 //            << createVisualPoint( 55.768813333333334, 37.499226666666665);
     doAddTrack(tr);
+    std::cerr<<"--------- Finish doAddTrack"<<std::endl;
+
 }

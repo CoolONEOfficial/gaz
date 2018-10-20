@@ -90,6 +90,8 @@ public:
             std::getline(file, lines[k]);
             if( k==0 && lines[0].empty() )
                 return false;
+
+
             // qDebug(lines[k].c_str());
         }
 

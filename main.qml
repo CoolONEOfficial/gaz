@@ -109,7 +109,7 @@ Window {
             for(var mId in vtrack.points)
                 geocode.push({"latitude": vtrack.points[mId].latitude, "longitude": vtrack.points[mId].longitude})
             addPolyline({path:geocode})
-           // map.center = QtPositioning.coordinate(geocode[0])
+           map.center = QtPositioning.coordinate(vtrack.points[0].latitude,vtrack.points[0].longitude)
         }
     }
 

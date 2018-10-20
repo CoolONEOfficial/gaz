@@ -25,7 +25,8 @@ void Backend::onMapComplete()
 
     DataFull datafull;
 
-    std::string fileList = "/home/coolone/gaz/data/result/processed_files.txt";
+//    std::string fileList = "/home/coolone/gaz/data/result/processed_files.txt";
+    std::string fileList = "/Users/valery/projects/gaz/gaz/data/result/processed_files.txt";
 
 //    std::ofstream file("../../../../gaz/data/result/aaa.txt");
 //    file<<"test";
@@ -33,21 +34,26 @@ void Backend::onMapComplete()
 
     datafull.process_all(fileList);
 
-        VisualTrack tr;
+    VisualTrack tr;
 
-    for(int mPoint = 0; mPoint < 3; mPoint++) {
+    auto &points = datafull.vehicles["X9600000000000430"].points;
 
-        auto p = datafull.vehicles["X9600000000000430"].points[mPoint+1000];
+    for(int mPoint = 0; mPoint < 500; mPoint++) {
+
+        auto p = points[mPoint];
+        double lat = p.latitude;
+        double lon = p.longitude;
+        //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr.points << createVisualPoint(p.longitude, p.latitude);
     }
 
-    tr.points
+    //tr.points
 //            << createVisualPoint(55.76880888888889, 37.499275555555556)
 //            << createVisualPoint(56.33794666666667,
 //    43.881080000000004)
 
-            << createVisualPoint(56.33794666666667,
-    43.881080000000004);
+   //         << createVisualPoint(56.33794666666667,
+   // 43.881080000000004);
 //            << createVisualPoint( 55.768813333333334, 37.499226666666665);
     doAddTrack(tr);
 }

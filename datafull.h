@@ -69,7 +69,9 @@ public:
 
     void process_all(const std::string& fileList)
     {
-        std::string basePath = "/home/coolone/gaz/data/result/";
+        //std::string basePath = "/home/coolone/gaz/data/result/";
+        std::string basePath = "/Users/valery/projects/gaz/gaz/data/result/";
+
         std::ifstream file(fileList);
         if (file)
         {

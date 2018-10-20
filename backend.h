@@ -13,7 +13,7 @@ class Backend : public QObject
         Q_INVOKABLE void test();
 
 signals:
-    void doAddPolyline()
+    void doAddPolyline();
 };
 
 #endif // BACKEND_H

@@ -52,6 +52,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.0
 import QtLocation 5.6
 import QtPositioning 5.6
+import cpp 1.0
 
 Window {
     width: 512
@@ -69,7 +70,12 @@ Window {
         // }
     }
 
+    Backend {
+        id: backend
+    }
+
     Map {
+        id: map
         anchors.fill: parent
         plugin: mapPlugin
         center: QtPositioning.coordinate(55.498022222222225, 37.610324444444444) // Gaz tech

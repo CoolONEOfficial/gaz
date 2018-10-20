@@ -19,8 +19,8 @@ public:
 public:
     void set(float lat, float lon)
     {
-        m_latitude = lat;
-        m_longitude = lon;
+        latitude = lat;
+        longitude = lon;
     }
 
 /*

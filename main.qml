@@ -109,6 +109,7 @@ Window {
             for(var mId in vtrack.points)
                 geocode.push({"latitude": vtrack.points[mId].latitude, "longitude": vtrack.points[mId].longitude})
             addPolyline({path:geocode})
+           // map.center = QtPositioning.coordinate(geocode[0])
         }
     }
 
@@ -116,8 +117,8 @@ Window {
         id: map
         anchors.fill: parent
         plugin: mapPlugin
-        center: QtPositioning.coordinate(55.76880888888889,
-                                         37.499275555555556) // Gaz tech
+        center: QtPositioning.coordinate(56.33794666666667,
+                                         43.881080000000004) // Gaz tech
         zoomLevel: 14
 
         Component.onCompleted: backend.onMapComplete()/*addPolyline( {path:

@@ -10,7 +10,10 @@ class Backend : public QObject
     public:
         explicit Backend(QObject *parent = nullptr);
 
-        void test();
+        Q_INVOKABLE void test();
+
+signals:
+    void doAddPolyline()
 };
 
 #endif // BACKEND_H

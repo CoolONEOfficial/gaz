@@ -6,6 +6,10 @@ class BasePoint
 {
 public:
     BasePoint();
+
+public:
+    float latitude;
+    float longitude;
 };
 
 #endif // BASEPOINT_H

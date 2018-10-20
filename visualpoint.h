@@ -1,6 +1,6 @@
 #ifndef VISUALPOINT_H
 #define VISUALPOINT_H
-
+#include "basepoint.h"
 
 class VisualPoint : public BasePoint
 {

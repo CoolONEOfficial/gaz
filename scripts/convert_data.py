@@ -47,6 +47,8 @@ def process_file(file_base_name):
             reader = csv.reader(csvfile, delimiter=',', quotechar='"')
             for row in reader:
 
+                #print_data_full(row)
+
                 num += 1
                 if num == 1:
                     continue
@@ -57,11 +59,11 @@ def process_file(file_base_name):
                 row[id_time] = convert_time(row[id_time])
                 row[id_time_gps] = convert_time(row[id_time_gps])
 
-                # print_data_full(row)
+                #print_data_full(row)
                 # print_data(row)
                 print_data_file(resfile, row)
 
-                # if num > max_number:
+                #if num > max_number:
                 #    break
 
 

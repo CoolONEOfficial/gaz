@@ -72,7 +72,7 @@ Window {
     Map {
         anchors.fill: parent
         plugin: mapPlugin
-        center: QtPositioning.coordinate(55.76880888888889, 37.499275555555556) // Gaz tech
+        center: QtPositioning.coordinate(55.498022222222225, 37.610324444444444) // Gaz tech
         zoomLevel: 14
 
         MapPolyline {

@@ -10,7 +10,7 @@ class Backend : public QObject
     public:
         explicit Backend(QObject *parent = nullptr);
 
-        void test();
+        Q_INVOKABLE void test();
 };
 
 #endif // BACKEND_H

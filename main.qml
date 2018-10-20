@@ -53,6 +53,7 @@ import QtQuick.Window 2.0
 import QtLocation 5.6
 import QtPositioning 5.6
 import cpp 1.0
+import QtQuick.Controls 1.2
 
 Window {
     width: 512
@@ -70,9 +71,6 @@ Window {
         // }
     }
 
-    Backend {
-        id: backend
-    }
 
     Map {
         id: map
@@ -588,4 +586,17 @@ Window {
                 ]
             }
     }
+
+    Backend{
+        id: backend
+    }
+
+    Button {
+        x:10
+        y:15
+        text: "Button"
+        onClicked:
+            backend.test()
+    }
+
 }

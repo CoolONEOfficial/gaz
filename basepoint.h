@@ -6,10 +6,12 @@ class BasePoint
 {
 public:
     BasePoint();
+    BasePoint(double m_latitude, double m_longitude);
+    BasePoint(const BasePoint& bp);
 
 public:
-    float latitude;
-    float longitude;
+    double m_latitude;
+    double m_longitude;
 };
 
 #endif // BASEPOINT_H

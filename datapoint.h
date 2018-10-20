@@ -9,8 +9,8 @@ class DataPoint: public BasePoint
 public:
     void set(float lat, float lon)
     {
-        latitude = lat;
-        longitude = lon;
+        m_latitude = lat;
+        m_longitude = lon;
     }
 
     bool read(std::ifstream &file)

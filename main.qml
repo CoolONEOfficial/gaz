@@ -78,8 +78,6 @@ Window {
 
     function addPolyline(params) {
 
-        backend.test()
-
         var finished = (
                     function() {
                         if(component.status == Component.Ready) {
@@ -106,7 +104,12 @@ Window {
 
     Connections {
         target: backend
-        on
+        onDoAddTrack: {
+            var geocode = []
+            for(var mId in vtrack.points)
+                geocode.push({"latitude": vtrack.points[mId].latitude, "longitude": vtrack.points[mId].longitude})
+            addPolyline({path:geocode})
+        }
     }
 
     Map {
@@ -117,7 +120,7 @@ Window {
                                          37.499275555555556) // Gaz tech
         zoomLevel: 14
 
-        Component.onCompleted: addPolyline(
+        Component.onCompleted: backend.onMapComplete()/*addPolyline( {path:
                                    [{
                                                        "latitude": 55.76880888888889,
                                                        "longitude": 37.499275555555556
@@ -1619,7 +1622,7 @@ Window {
                                                        "latitude": 55.498022222222225,
                                                        "longitude": 37.610324444444444
                                                    }]
-                                   )
+                                   })*/
     }
 
     Backend{

@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     datatrack.cpp \
     datafull.cpp \
     basepoint.cpp \
-    visualpoint.cpp
+    visualpoint.cpp \
+    visualtrack.cpp
 
 RESOURCES += qml.qrc
 
@@ -21,4 +22,7 @@ HEADERS += \
     datatrack.h \
     datafull.h \
     basepoint.h \
-    visualpoint.h
+    visualpoint.h \
+    visualtrack.h
+
+CONFIG+=qml_debug

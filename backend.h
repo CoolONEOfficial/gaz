@@ -1,6 +1,8 @@
 #ifndef BACKEND_H
 #define BACKEND_H
 
+#include "visualtrack.h"
+
 #include <QObject>
 
 class Backend : public QObject
@@ -11,9 +13,10 @@ class Backend : public QObject
         explicit Backend(QObject *parent = nullptr);
 
         Q_INVOKABLE void test();
+        Q_INVOKABLE void onMapComplete();
 
 signals:
-    void doAddPolyline();
+    void doAddTrack(VisualTrack vtrack);
 };
 
 #endif // BACKEND_H

@@ -31,7 +31,6 @@ void Backend::onMapComplete()
 {
     qDebug("tesatda");
 
-    DataFull datafull;
 
 #ifndef __APPLE__
     std::string fileList = "/home/coolone/gaz/data/result/processed_files.txt";
@@ -45,6 +44,8 @@ void Backend::onMapComplete()
     std::setlocale(LC_ALL, "C");
 
     datafull.process_all(fileList);
+
+    return;
 
     for(auto mVehicle: { *datafull.vehicles.begin()}) {
         VisualTrack tr;
@@ -96,8 +97,8 @@ void Backend::onMapComplete()
     for(int mPoint = 0; mPoint < 5000; mPoint++) {
 
         auto p = points2[mPoint];
-        double lat = p.latitude;
-        double lon = p.longitude;
+        //double lat = p.latitude;
+        //double lon = p.longitude;
         //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr2.points << createVisualPoint(p.longitude, p.latitude, p.timestamp);
     }
@@ -114,14 +115,13 @@ void Backend::onMapComplete()
     for(int mPoint = 0; mPoint < 5000; mPoint++) {
 
         auto p = points3[mPoint];
-        double lat = p.latitude;
-        double lon = p.longitude;
+        //double lat = p.latitude;
+        //double lon = p.longitude;
         //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr3.points << createVisualPoint(p.longitude, p.latitude, p.timestamp);
     }
 
     std::cerr<<"--------- Finish add points3"<<std::endl;
-
 
     doAddTrack(tr3);
 
@@ -129,5 +129,28 @@ void Backend::onMapComplete()
 
 void Backend::onTimeSlider(int unixtimestamp)
 {
-
+    std::cerr<<"---------- onTimeSlider" <<std::endl;
 }
+
+void Backend::onVinSelect(QString vin)
+{
+    std::cerr<<"---------- onVinSelect" << vin.toStdString()<<std::endl;
+
+    VisualTrack tr3;
+
+    auto &points3 = datafull.vehicles[vin.toStdString()].points;
+
+    for(int mPoint = 0; mPoint < 5000; mPoint++) {
+
+        auto p = points3[mPoint];
+        //double lat = p.latitude;
+        //double lon = p.longitude;
+        //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
+        tr3.points << createVisualPoint(p.longitude, p.latitude, p.timestamp);
+    }
+
+    std::cerr<<"--------- Finish add points3"<<std::endl;
+
+    doAddTrack(tr3);
+}
+

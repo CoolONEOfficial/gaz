@@ -155,7 +155,7 @@ Window {
         property var end
         property var timelen
 
-        property var graph: []
+        property var graphFuel: []
 
         property var switchPoint
 
@@ -206,14 +206,26 @@ Window {
             var mX = 0;
             var mY = canvas.height / 2;
 
-            for(var mVec in graph.graph) {
-                mX += mVec.x;
-                mY -= mVec.y;
 
-                graph.push([mX,mY]);
+            var k = 0
+            var num = graph.graph.length
+            graphFuel = []
+            for(var mVecId in graph.graph) {
+                mX =  graph.graph[mVecId].x;
+                mY = 100-graph.graph[mVecId].y*3;
+
+                k++
+                if (k < 5 || k > num-5 )
+                    continue
+
+
+                graphFuel.push([mX,mY]);
             }
 
 
+            canvas.markDirty()
+            canvas.requestPaint()
+            canvas.update()
         }
     }
 
@@ -294,31 +306,55 @@ Window {
 
     Canvas {
         id: canvas
-        anchors.bottom: parent.bottom
+        //anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 100
+        height: 300
+        y: -30
         onPaint: {
-            var ctx = getContext("2d")
+            var fuel = conn.graphFuel;
 
-            ctx.fillStyle = "white"
+            console.log("Canvas paint: " + fuel)
 
-            ctx.lineWidth = 15;
-            ctx.strokeStyle = "red"
+            var con = conn
+//            if(typeof conn.graphFuel !== "undefined" &&
+//                    conn.graphFuel.length > 0) {
+                var ctx = canvas.getContext("2d")
+
             ctx.beginPath()
 
-            var startt = conn.graph
 
-            //console.log(startt);
+                ctx.fillStyle = "red"
 
 
-            ctx.moveTo(startt[0] * window.width, startt[1] * window.height)
 
-            for(var mCoordId in conn.graph) {
-                ctx.lineTo(conn.graph[mCoordId][0], conn.graph[mCoordId][1])
-            }
-            ctx.closePath()
-            ctx.stroke()
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "red"
+
+               // ctx.moveTo(0s,0);
+                //ctx.lineTo(100, 100);
+
+
+
+                var startt = conn.graphFuel[0]
+
+            console.log("sx=",startt[0]," sy",startt[1])
+
+                ctx.moveTo(startt[0], startt[1])
+
+
+
+                for(var mCoordId in conn.graphFuel) {
+                    var sx = conn.graphFuel[mCoordId][0]*window.width
+                    var sy = conn.graphFuel[mCoordId][1]
+                    console.log("sx=",sx," sy=",sy)
+
+                    ctx.lineTo(sx, sy)
+                }
+
+                ctx.closePath()
+                ctx.stroke()
+            //}
         }
     }
 

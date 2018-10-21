@@ -8,6 +8,8 @@
 #include <string>
 #include <stdlib.h>
 #include <sstream>
+#include <QVector2D>
+#include "graph.h"
 using namespace std;
 
 Backend::Backend(QObject *parent) :
@@ -161,7 +163,7 @@ void Backend::onVinSelect(QString vin)
 
     auto &points3 = datafull.vehicles[vin.toStdString()].points;
 
-    for(int mPoint = 0; mPoint < 5000; mPoint++) {
+    for(int mPoint = 0; mPoint < 50000; mPoint++) {
 
         auto p = points3[mPoint];
         //double lat = p.latitude;
@@ -174,5 +176,49 @@ void Backend::onVinSelect(QString vin)
 
     doAddTrack(tr3);
 
+    std::cerr<<"--------- After doAddTrack points3"<<std::endl;
+
+    onVinSelectFuel(vin);
+
 }
+
+
+void Backend::onVinSelectFuel(QString vin)
+{
+    selectedVin = vin;
+    std::cerr<<"---------- onVinSelect" << vin.toStdString()<<std::endl;
+
+    VisualTrack tr;
+
+    const auto &points3 = datafull.vehicles[vin.toStdString()].process_odometr();
+
+
+    int minTs = points3[0].timeStamp;
+    int maxTs = points3[points3.size()-1].timeStamp;
+
+    double scale = 1.0/(maxTs - minTs);
+
+    Graph graph;
+
+    for( auto &pnt: points3 )
+    {
+        double x = (pnt.timeStamp - minTs)*scale;
+        double y = pnt.value;
+        if( y < 0 )
+            y = 0;
+
+        if( y > 30 )
+            y = 30;
+
+        QVector2D vect(x, y);
+
+        graph.graph.append(vect);
+
+    }
+
+    doDrawGraph(graph);
+
+
+}
+
 

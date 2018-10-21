@@ -5,6 +5,10 @@
 #include <clocale>
 #include <QRandomGenerator>
 #include <array>
+#include <string>
+#include <stdlib.h>
+#include <sstream>
+using namespace std;
 
 Backend::Backend(QObject *parent) :
     QObject(parent)
@@ -15,10 +19,11 @@ void Backend::test()
 {
 }
 
-QVariant createVisualPoint(double lat, double lon)
+QVariant createVisualPoint(double lat, double lon, int timestamp)
 {
     QVariant l;
-    l.setValue(VisualPoint(lat, lon));
+    VisualPoint vp = VisualPoint(lat, lon, timestamp);
+    l.setValue(vp);
     return l;
 }
 
@@ -41,18 +46,19 @@ void Backend::onMapComplete()
 
     datafull.process_all(fileList);
 
-    for(auto mVehicle: datafull.vehicles) {
+    for(auto mVehicle: { *datafull.vehicles.begin()}) {
         VisualTrack tr;
 
         static std::array<QColor, 5> colors = {Qt::black, Qt::red, Qt::gray, Qt::green, Qt::blue};
 
         tr.setColor(colors[rand() % colors.size()]);
+        tr.setVin(QString::fromStdString(mVehicle.first));
 
         for(auto mPoint: mVehicle.second.points) {
-            double lat = mPoint.latitude;
-            double lon = mPoint.longitude;
+//            double lat = mPoint.latitude;
+//            double lon = mPoint.longitude;
             //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
-            tr.points << createVisualPoint(mPoint.longitude, mPoint.latitude);
+            tr.points << createVisualPoint(mPoint.longitude, mPoint.latitude, mPoint.timestamp);
         }
 
         doAddTrack(tr);

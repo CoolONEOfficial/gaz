@@ -57,6 +57,7 @@ import cpp 1.0
 import QtQuick.Controls 1.2
 
 Window {
+    id: window
     width: 512
     height: 512
     visible: true
@@ -81,6 +82,10 @@ Window {
 
     function addPolyline(params) {
         addComponent("component_polyline.qml", params)
+    }
+
+    function addTimePoint(params) {
+        addComponent("component_timepoint.qml", params)
     }
 
     function addComponent(filename, params) {
@@ -108,15 +113,83 @@ Window {
             component.statusChanged.connect(finished);
     }
 
+    function latlng2distance(lat1, long1, lat2, long2) {
+        //радиус Земли
+        var R = 6372795;
+        //перевод коордитат в радианы
+        lat1 *= Math.PI / 180;
+        lat2 *= Math.PI / 180;
+        long1 *= Math.PI / 180;
+        long2 *= Math.PI / 180;
+        //вычисление косинусов и синусов широт и разницы долгот
+        var cl1 = Math.cos(lat1);
+        var cl2 = Math.cos(lat2);
+        var sl1 = Math.sin(lat1);
+        var sl2 = Math.sin(lat2);
+        var delta = long2 - long1;
+        var cdelta = Math.cos(delta);
+        var sdelta = Math.sin(delta);
+        //вычисления длины большого круга
+        var y = Math.sqrt(Math.pow(cl2 * sdelta, 2) + Math.pow(cl1 * sl2 - sl1 * cl2 * cdelta, 2));
+        var x = sl1 * sl2 + cl1 * cl2 * cdelta;
+        var ad = Math.atan2(y, x);
+        var dist = ad * R; //расстояние между двумя координатами в метрах
+        return dist
+    }
+
+    function checkCollision(one, two) {
+        return latlng2distance(one.latitude, one.longitude, two.latitude, two.longitude) < 100
+    }
+
     Connections {
+        property var vinArr: []
+
         target: backend
         onDoAddTrack: {
             addPolyline({"path":vtrack.points, "line.color": vtrack.color})
-//            for(var mId in vtrack.points)
-//                addPoint({"center": QtPositioning.coordinate(vtrack.points[mId].latitude, vtrack.points[mId].longitude)})
+//            var points = []
+//            for(var mId in vtrack.points) {
+//////                for(var mPointId in points)
+//////                    if(checkCollision(points[mPointId], vtrack.points[mId]))
+//////                        break;
+
+//////                points.push(vtrack.points[mId])
+////                addPoint({"center": QtPositioning.coordinate(vtrack.points[mId].latitude, vtrack.points[mId].longitude)})
+//            }
+
             map.center = QtPositioning.coordinate(vtrack.points[0].latitude,vtrack.points[0].longitude)
 
+            var vinExists = false
+            var vinId
+            for(var mVinId in vinArr)
+                if(vinArr[mVinId] == vtrack.vin) {
+                    vinExists = true;
+                    vinId = mVinId
+                    break;
+                }
 
+            if(!vinExists) {
+                vinArr.push(vtrack.vin);
+                vinId = vinArr.length
+            }
+
+
+            var start = vtrack.points[0].timestamp
+            var end = vtrack.points[vtrack.points.length-1].timestamp
+            var timelen = end - start
+
+            for(var mId in vtrack.points) {
+                var mPoint = vtrack.points[mId]
+                var mTime = mPoint.timestamp - start
+                addTimePoint(
+                            {
+                                "parent": timeline,
+                                x: (5 + (mTime / timelen * (window.width - 16))),
+                                y: timeline.height / (vinArr.length+1) * vinId - 3,
+                                color: vtrack.color
+                            }
+                            )
+            }
         }
     }
 
@@ -129,18 +202,29 @@ Window {
         zoomLevel: 14
 
         Component.onCompleted: backend.onMapComplete()
+
+        Rectangle {
+            z: 99
+            id: timeline
+            color: "black"
+            opacity: 0.5
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 50
+        }
     }
 
     Backend{
         id: backend
     }
 
-    Button {
-        x:10
-        y:15
-        text: "Button"
-        onClicked:
-            backend.test()
-    }
+//    Button {
+//        x:5
+//        y:100
+//        text: "Button"
+//        onClicked:
+//            backend.test()
+//    }
 
 }

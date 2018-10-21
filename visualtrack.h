@@ -12,6 +12,7 @@ class VisualTrack
     Q_GADGET
     Q_PROPERTY(QVariantList points READ getPoints WRITE setPoints )
     Q_PROPERTY(QColor color READ getColor WRITE setColor )
+    Q_PROPERTY(QString vin READ getVin WRITE setVin )
 public:
     VisualTrack();
 
@@ -24,6 +25,11 @@ public:
 
     QColor getColor() {return color;}
     void setColor(QColor c) {color = c;}
+
+    QString vin;
+
+    QString getVin() {return vin;}
+    void setVin(QString v) {vin = v;}
 };
 
 Q_DECLARE_METATYPE(VisualTrack);

@@ -7,7 +7,6 @@ SOURCES += main.cpp \
     datapoint.cpp \
     datatrack.cpp \
     datafull.cpp \
-    basepoint.cpp \
     visualpoint.cpp \
     visualtrack.cpp
 
@@ -21,7 +20,6 @@ HEADERS += \
     datapoint.h \
     datatrack.h \
     datafull.h \
-    basepoint.h \
     visualpoint.h \
     visualtrack.h
 

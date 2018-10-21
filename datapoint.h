@@ -6,12 +6,13 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "basepoint.h"
 
 
-class DataPoint: public BasePoint
+class DataPoint
 {
 public:
+    double latitude;
+    double longitude;
     std::string vin;
     size_t timestamp;
     size_t gps_timestamp;

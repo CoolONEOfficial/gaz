@@ -163,6 +163,8 @@ Window {
                 switchPoint.destroy()
 
             addPoint({"center": vpoint}, function(sprite){switchPoint = sprite})
+
+            map.center = vpoint
         }
 
         onDoAddTrack: {

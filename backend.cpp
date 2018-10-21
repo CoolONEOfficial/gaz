@@ -85,3 +85,8 @@ void Backend::onMapComplete()
 //            << createVisualPoint( 55.768813333333334, 37.499226666666665);
 
 }
+
+void Backend::onTimeSlider(int unixtimestamp)
+{
+
+}

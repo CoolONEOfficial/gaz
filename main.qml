@@ -155,6 +155,8 @@ Window {
         property var end
         property var timelen
 
+        property var graph: []
+
         property var switchPoint
 
         target: backend
@@ -181,18 +183,36 @@ Window {
             end = vtrack.points[vtrack.points.length-1].timestamp
             timelen = end - start
 
-            for(var mId in vtrack.points) {
-                var mPoint = vtrack.points[mId]
-                var mTime = mPoint.timestamp - start
-                addTimePoint(
-                            {
-                                "parent": timeline,
-                                x: (5 + (mTime / timelen * (window.width - 16))),
-                                y: timeline.height,
-                                color: vtrack.color
-                            }
-                            )
+//            for(var mId in vtrack.points) {
+//                var mPoint = vtrack.points[mId]
+//                var mTime = mPoint.timestamp - start
+//                addTimePoint(
+//                            {
+//                                "parent": timeline,
+//                                x: (5 + (mTime / timelen * (window.width - 16))),
+//                                y: timeline.height,
+//                                color: vtrack.color
+//                            }
+//                            )
+//            }
+        }
+
+
+
+        onDoDrawGraph: {
+
+
+            var mX = 0;
+            var mY = canvas.height / 2;
+
+            for(mVec in graph.graph) {
+                mX += mVec.x;
+                mY -= mVec.y;
+
+                graph.push([mX,mY]);
             }
+
+
         }
     }
 
@@ -268,6 +288,33 @@ Window {
                     }
                 }
             }
+        }
+    }
+
+    Canvas {
+        id: canvas
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 100
+        onPaint: {
+            var ctx = getContext("2d")
+
+            ctx.fillStyle = "white"
+
+            ctx.lineWidth = 15;
+            ctx.strokeStyle = "red"
+            ctx.beginPath()
+
+            var startt = conn.graph[0]
+
+            ctx.moveTo(startt[0] * window.width, startt[1] * window.height)
+
+            for(var mCoordId in conn.graph) {
+                ctx.lineTo(conn.graph[mCoordId][0], conn.graph[mCoordId][1])
+            }
+            ctx.closePath()
+            ctx.stroke()
         }
     }
 

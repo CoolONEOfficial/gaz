@@ -2,6 +2,7 @@
 #define BACKEND_H
 
 #include "datafull.h"
+#include "graph.h"
 #include "visualtrack.h"
 
 #include <QObject>
@@ -22,12 +23,12 @@ class Backend : public QObject
 
         QString selectedVin;
 
-    DataFull datafull;
+        DataFull datafull;
 
 signals:
     void doAddTrack(VisualTrack vtrack);
     void doSwitchPoint(VisualPoint vpoint);
-    void doDrawGraph();
+    void doDrawGraph(Graph graph);
 };
 
 #endif // BACKEND_H

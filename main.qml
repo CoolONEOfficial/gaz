@@ -213,6 +213,7 @@ Window {
             }
 
 
+            canvas.update()
         }
     }
 
@@ -298,23 +299,25 @@ Window {
         anchors.right: parent.right
         height: 100
         onPaint: {
-            var ctx = getContext("2d")
+            if(typeof graph !== "undefined") {
+                var ctx = getContext("2d")
 
-            ctx.fillStyle = "white"
+                ctx.fillStyle = "white"
 
-            ctx.lineWidth = 15;
-            ctx.strokeStyle = "red"
-            ctx.beginPath()
+                ctx.lineWidth = 15;
+                ctx.strokeStyle = "red"
+                ctx.beginPath()
 
-            var startt = conn.graph[0]
+                var startt = conn.graph[0]
 
-            ctx.moveTo(startt[0] * window.width, startt[1] * window.height)
+                ctx.moveTo(startt[0] * window.width, startt[1] * window.height)
 
-            for(var mCoordId in conn.graph) {
-                ctx.lineTo(conn.graph[mCoordId][0], conn.graph[mCoordId][1])
+                for(var mCoordId in conn.graph) {
+                    ctx.lineTo(conn.graph[mCoordId][0], conn.graph[mCoordId][1])
+                }
+                ctx.closePath()
+                ctx.stroke()
             }
-            ctx.closePath()
-            ctx.stroke()
         }
     }
 

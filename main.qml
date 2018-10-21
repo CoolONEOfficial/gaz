@@ -76,19 +76,19 @@ Window {
     property var component;
     property var sprite;
 
-    function addPoint(params) {
-        addComponent("component_point.qml", params)
+    function addPoint(params, listener) {
+        addComponent("component_point.qml", params, listener)
     }
 
-    function addPolyline(params) {
-        addComponent("component_polyline.qml", params)
+    function addPolyline(params, listener) {
+        addComponent("component_polyline.qml", params, listener)
     }
 
-    function addTimePoint(params) {
-        addComponent("component_timepoint.qml", params)
+    function addTimePoint(params, listener) {
+        addComponent("component_timepoint.qml", params, listener)
     }
 
-    function addComponent(filename, params) {
+    function addComponent(filename, params, listener) {
 
         var finished = (
                     function() {
@@ -97,8 +97,14 @@ Window {
 
                             if(sprite == null)
                                 console.log("shit")
-                            else
+                            else {
                                 map.addMapItem(sprite)
+
+                                if(typeof listener !== "undefined") {
+                                    console.debug("Listener executed")
+                                    listener(sprite);
+                                }
+                            }
 
                         } else if(component.status == Component.Error)
                             console.log("Error loading component:", component.errorString());
@@ -149,7 +155,16 @@ Window {
         property var end
         property var timelen
 
+        property var switchPoint
+
         target: backend
+        onDoSwitchPoint: {
+            if(switchPoint != null)
+                switchPoint.destroy()
+
+            addPoint({"center": vpoint}, function(sprite){switchPoint = sprite})
+        }
+
         onDoAddTrack: {
 
             addPolyline({"path":vtrack.points, "line.color": vtrack.color})
@@ -221,22 +236,32 @@ Window {
             anchors.right: parent.right
             height: 50
 
+
+            MouseArea {
+                anchors.fill: parent
+                propagateComposedEvents: false
+                hoverEnabled: true
+                preventStealing: true
+            }
+
             Rectangle {
                 id: time_slider
                 color: "white"
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                width: 5
+                width: 8
+                x: parent.width / 2 - width / 2
 
                 MouseArea{
                     id: time_slider_mouse
                     anchors.fill: parent
                     drag.target: time_slider
-                    drag.axis: Drag.X
+                    drag.axis: Drag.XAxis
                     drag.minimumX: 0
                     drag.maximumX: window.width
 
-                    drag.onDragFinished: {
+                    drag.onActiveChanged: {
+
                         backend.onTimeSlider(time_slider_mouse.mouseX / window.width * conn.timelen)
                     }
                 }

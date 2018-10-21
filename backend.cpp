@@ -31,8 +31,6 @@ void Backend::onMapComplete()
 {
     qDebug("tesatda");
 
-    DataFull datafull;
-
 #ifndef __APPLE__
     std::string fileList = "/home/coolone/gaz/data/result/processed_files.txt";
 #else
@@ -129,5 +127,14 @@ void Backend::onMapComplete()
 
 void Backend::onTimeSlider(int unixtimestamp)
 {
-
+    for(auto mVehicle: { *datafull.vehicles.begin()}) {
+        auto mPoints = mVehicle.second.points;
+        auto lowPoint = DataPoint();
+        lowPoint.timestamp = unixtimestamp;
+        auto lower = std::lower_bound(mPoints.begin(), mPoints.end(), lowPoint);
+        if(lower != mPoints.end())
+        {
+            doSwitchPoint(VisualPoint(lower.base()->longitude, lower.base()->latitude, lower.base()->timestamp));
+        }
+    }
 }

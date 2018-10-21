@@ -163,32 +163,22 @@ Window {
             if(switchPoint != null)
                 switchPoint.destroy()
 
+            console.log("vpoint=", vpoint)
+
             addPoint({"center": vpoint}, function(sprite){switchPoint = sprite})
 
             map.center.latitude = vpoint.latitude
-            map.center.longitude = vpoint.latitude
+            map.center.longitude = vpoint.longitude
         }
 
         onDoAddTrack: {
 
             addPolyline({"path":vtrack.points, "line.color": vtrack.color})
-//            var points = []
-//            for(var mId in vtrack.points) {
-//////                for(var mPointId in points)
-//////                    if(checkCollision(points[mPointId], vtrack.points[mId]))
-//////                        break;
 
-//////                points.push(vtrack.points[mId])
-////                addPoint({"center": QtPositioning.coordinate(vtrack.points[mId].latitude, vtrack.points[mId].longitude)})
-//            }
+            map.center = QtPositioning.coordinate(vtrack.points[0])
 
-            map.center = QtPositioning.coordinate(vtrack.points[0].latitude,vtrack.points[0].longitude)
-
-
-            if(start > vtrack.points[0].timestamp)
-                start = vtrack.points[0].timestamp
-            if(end < vtrack.points[vtrack.points.length-1].timestamp)
-                end = vtrack.points[vtrack.points.length-1].timestamp
+            start = vtrack.points[0].timestamp
+            end = vtrack.points[vtrack.points.length-1].timestamp
             timelen = end - start
 
             for(var mId in vtrack.points) {
@@ -206,12 +196,18 @@ Window {
         }
     }
 
+    function getTimestamp(alpha)
+    {
+        return conn.start + alpha * (conn.end - conn.start)
+    }
+
     Map {
         id: map
         anchors.fill: parent
         plugin: mapPlugin
         center: QtPositioning.coordinate(56.33794666666667,
-                                         43.881080000000004) // Gaz tech
+                                         43.881080000000004
+                    ) // Gaz tech
         zoomLevel: 14
 
         Component.onCompleted: backend.onMapComplete()
@@ -252,8 +248,23 @@ Window {
 
                     drag.onActiveChanged: {
 
+                        console.log("mouseX=",time_slider_mouse.mouseX);
+                        console.log("width=",window.width);
+                        console.log("conn.timelen=",conn.timelen);
 
-                        backend.onTimeSlider(time_slider_mouse.mouseX / window.width * conn.timelen)
+                        var pos = time_slider.x
+
+                        console.log("pos=", pos)
+                        var alpha = pos / window.width
+
+                        if(alpha < 0)
+                            alpha = 0;
+                        if(alpha>1)
+                            alpha = 1;
+
+                        var ts = getTimestamp(alpha)
+
+                        backend.onTimeSlider(ts)
                     }
                 }
             }
@@ -264,21 +275,21 @@ Window {
         id: backend
     }
 
-    ListModel {
-        id: model
-        ListElement {
-            name:'abc'
-            number:'123'
-        }
-        ListElement {
-            name:'efg'
-            number:'456'
-        }
-        ListElement {
-            name:'xyz'
-            number:'789'
-        }
-    }
+//    ListModel {
+//        id: model
+//        ListElement {
+//            name:'abc'
+//            number:'123'
+//        }
+//        ListElement {
+//            name:'efg'
+//            number:'456'
+//        }
+//        ListElement {
+//            name:'xyz'
+//            number:'789'
+//        }
+//    }
 
 
 

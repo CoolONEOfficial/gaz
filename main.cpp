@@ -49,6 +49,7 @@
 ****************************************************************************/
 
 #include "backend.h"
+#include "graph.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -57,6 +58,7 @@ int main(int argc, char *argv[])
 {   
     QGuiApplication app(argc, argv);
 
+    qRegisterMetaType<Graph>("Graph");
     qRegisterMetaType<VisualTrack>("VisualTrack");
     qRegisterMetaType<VisualPoint>("VisualPoint");
 

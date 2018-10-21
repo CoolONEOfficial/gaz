@@ -4,5 +4,6 @@
         <file>component_polyline.qml</file>
         <file>component_point.qml</file>
         <file>component_timepoint.qml</file>
+        <file>fuel_graph.qml</file>
     </qresource>
 </RCC>

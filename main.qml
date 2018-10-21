@@ -169,6 +169,7 @@ Window {
 
             map.center.latitude = vpoint.latitude
             map.center.longitude = vpoint.longitude
+
         }
 
         onDoAddTrack: {
@@ -394,8 +395,6 @@ Window {
             }
         }
     }
-
-//------------------------
 
 
     Rectangle {

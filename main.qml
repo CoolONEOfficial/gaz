@@ -158,6 +158,7 @@ Window {
         property var switchPoint
 
         target: backend
+
         onDoSwitchPoint: {
             if(switchPoint != null)
                 switchPoint.destroy()
@@ -181,7 +182,7 @@ Window {
 //            }
 
             map.center = QtPositioning.coordinate(vtrack.points[0].latitude,vtrack.points[0].longitude)
-
+/*
             var vinExists = false
             var vinId
             for(var mVinId in vinArr)
@@ -215,6 +216,7 @@ Window {
                             }
                             )
             }
+            */
         }
     }
 
@@ -264,6 +266,7 @@ Window {
 
                     drag.onActiveChanged: {
 
+
                         backend.onTimeSlider(time_slider_mouse.mouseX / window.width * conn.timelen)
                     }
                 }
@@ -274,6 +277,177 @@ Window {
     Backend{
         id: backend
     }
+
+    ListModel {
+        id: model
+        ListElement {
+            name:'abc'
+            number:'123'
+        }
+        ListElement {
+            name:'efg'
+            number:'456'
+        }
+        ListElement {
+            name:'xyz'
+            number:'789'
+        }
+    }
+
+
+
+    Rectangle {
+        width: 200
+        height: 100
+        y: 120
+
+        ListModel {
+            id: dataModel
+
+            ListElement {
+                color: "orange"
+                text: "X9600000000000068"
+                val: "aaa"
+            }
+            ListElement {
+                color: "lightgreen"
+                text: "X9600000000000225"
+                val: "bbb"
+            }
+            ListElement {
+                color: "orchid"
+                text: "X9600000000000430"
+                val: "ccc"
+            }
+        }
+
+        ListView {
+            id: view
+
+            anchors.margins: 2
+            anchors.fill: parent
+            spacing: 2
+            model: dataModel
+            clip: true
+
+            highlight: Rectangle {
+                color: "skyblue"
+            }
+            highlightFollowsCurrentItem: true
+
+            delegate: Item {
+                id: listDelegate
+
+                property var view: ListView.view
+                property var isCurrent: ListView.isCurrentItem
+
+                width: view.width
+                height: 30
+
+                Rectangle {
+                    anchors.margins: 5
+                    anchors.fill: parent
+                    radius: height / 2
+                    color: model.color
+                    border {
+                        color: "black"
+                        width: 1
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        renderType: Text.NativeRendering
+                        text: "%1%2".arg(model.text).arg(isCurrent ? " *" : "")
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {view.currentIndex = model.index;
+                                    console.log(model.index, model.text, model.val);
+                            backend.onVinSelect(model.text)
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+//------------------------
+
+
+    Rectangle {
+        width: 200
+        height: 70
+        y: 50
+
+        ListModel {
+            id: dataModelMenu
+
+            ListElement {
+                color: "red"
+                text: "Fuel control"
+                val: "aaa"
+            }
+            ListElement {
+                color: "blue"
+                text: "Speed info"
+                val: "bbb"
+            }
+
+        }
+
+        ListView {
+            id: viewMenu
+
+            anchors.margins: 2
+            anchors.fill: parent
+            spacing: 2
+            model: dataModelMenu
+            clip: true
+
+            highlight: Rectangle {
+                color: "skyblue"
+            }
+            highlightFollowsCurrentItem: true
+
+            delegate: Item {
+                id: listDelegateMenu
+
+                property var view: ListView.viewMenu
+                property var isCurrent: ListView.isCurrentItem
+
+                width: viewMenu.width
+                height: 30
+
+                Rectangle {
+                    anchors.margins: 5
+                    anchors.fill: parent
+                    radius: height / 2
+                    color: model.color
+                    border {
+                        color: "black"
+                        width: 1
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        renderType: Text.NativeRendering
+                        text: "%1%2".arg(model.text).arg(isCurrent ? " *" : "")
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {viewMenu.currentIndex = model.index;
+                                    console.log(model.index, model.text, model.val);}
+                    }
+                }
+            }
+        }
+    }
+
+
+
 
 //    Button {
 //        x:5

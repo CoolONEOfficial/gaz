@@ -44,6 +44,8 @@ void Backend::onMapComplete()
 
     datafull.process_all(fileList);
 
+    return;
+
     for(auto mVehicle: { *datafull.vehicles.begin()}) {
         VisualTrack tr;
 
@@ -94,8 +96,13 @@ void Backend::onMapComplete()
     for(int mPoint = 0; mPoint < 5000; mPoint++) {
 
         auto p = points2[mPoint];
+<<<<<<< HEAD
 //        double lat = p.latitude;
 //        double lon = p.longitude;
+=======
+        //double lat = p.latitude;
+        //double lon = p.longitude;
+>>>>>>> c0199be63db4b1286b6f0dc957f936709654db6e
         //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr2.points << createVisualPoint(p.longitude, p.latitude, p.timestamp);
     }
@@ -112,8 +119,8 @@ void Backend::onMapComplete()
     for(int mPoint = 0; mPoint < 5000; mPoint++) {
 
         auto p = points3[mPoint];
-        double lat = p.latitude;
-        double lon = p.longitude;
+        //double lat = p.latitude;
+        //double lon = p.longitude;
         //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr3.points << createVisualPoint(p.longitude, p.latitude, p.timestamp);
     }
@@ -126,14 +133,38 @@ void Backend::onMapComplete()
 
 void Backend::onTimeSlider(int unixtimestamp)
 {
-    for(auto mVehicle: { *datafull.vehicles.begin()}) {
-        auto mPoints = mVehicle.second.points;
-        auto lowPoint = DataPoint();
-        lowPoint.timestamp = unixtimestamp;
-        auto lower = std::lower_bound(mPoints.begin(), mPoints.end(), lowPoint);
-        if(lower != mPoints.end())
-        {
-            doSwitchPoint(VisualPoint(lower.base()->longitude, lower.base()->latitude, lower.base()->timestamp));
-        }
-    }
+    std::cerr<<"---------- onTimeSlider" <<std::endl;
 }
+
+void Backend::onVinSelect(QString vin)
+{
+    std::cerr<<"---------- onVinSelect" << vin.toStdString()<<std::endl;
+
+    VisualTrack tr3;
+
+    auto &points3 = datafull.vehicles[vin.toStdString()].points;
+
+    for(int mPoint = 0; mPoint < 5000; mPoint++) {
+
+        auto p = points3[mPoint];
+        //double lat = p.latitude;
+        //double lon = p.longitude;
+        //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
+        tr3.points << createVisualPoint(p.longitude, p.latitude, p.timestamp);
+    }
+
+    std::cerr<<"--------- Finish add points3"<<std::endl;
+
+    doAddTrack(tr3);
+//    for(auto mVehicle: { *datafull.vehicles.begin()}) {
+//        auto mPoints = mVehicle.second.points;
+//        auto lowPoint = DataPoint();
+//        lowPoint.timestamp = unixtimestamp;
+//        auto lower = std::lower_bound(mPoints.begin(), mPoints.end(), lowPoint);
+//        if(lower != mPoints.end())
+//        {
+//            doSwitchPoint(VisualPoint(lower.base()->longitude, lower.base()->latitude, lower.base()->timestamp));
+//        }
+//    }
+}
+

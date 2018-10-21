@@ -14,6 +14,7 @@ class Backend : public QObject
 
         Q_INVOKABLE void test();
         Q_INVOKABLE void onMapComplete();
+        Q_INVOKABLE void onTimeSlider(int unixtimestamp);
 
 signals:
     void doAddTrack(VisualTrack vtrack);

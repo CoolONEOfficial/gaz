@@ -142,7 +142,12 @@ Window {
     }
 
     Connections {
+        id: conn
+
         property var vinArr: []
+        property var start
+        property var end
+        property var timelen
 
         target: backend
         onDoAddTrack: {
@@ -174,9 +179,11 @@ Window {
             }
 
 
-            var start = vtrack.points[0].timestamp
-            var end = vtrack.points[vtrack.points.length-1].timestamp
-            var timelen = end - start
+            if(start > vtrack.points[0].timestamp)
+                start = vtrack.points[0].timestamp
+            if(end < vtrack.points[vtrack.points.length-1].timestamp)
+                end = vtrack.points[vtrack.points.length-1].timestamp
+            timelen = end - start
 
             for(var mId in vtrack.points) {
                 var mPoint = vtrack.points[mId]
@@ -212,6 +219,27 @@ Window {
             anchors.left: parent.left
             anchors.right: parent.right
             height: 50
+
+            Rectangle {
+                id: time_slider
+                color: "white"
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: 5
+
+                MouseArea{
+                    id: time_slider_mouse
+                    anchors.fill: parent
+                    drag.target: time_slider
+                    drag.axis: Drag.X
+                    drag.minimumX: 0
+                    drag.maximumX: window.width
+
+                    drag.onDragFinished: {
+                        backend.onTimeSlider(time_slider_mouse.mouseX / window.width * conn.timelen)
+                    }
+                }
+            }
         }
     }
 

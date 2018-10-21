@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 #include <clocale>
+#include <QRandomGenerator>
+#include <array>
 
 Backend::Backend(QObject *parent) :
     QObject(parent)
@@ -39,18 +41,33 @@ void Backend::onMapComplete()
 
     datafull.process_all(fileList);
 
-    VisualTrack tr;
+    for(auto mVehicle: datafull.vehicles) {
+        VisualTrack tr;
 
-    auto &points = datafull.vehicles["X9600000000000430"].points;
+        static std::array<QColor, 5> colors = {Qt::black, Qt::red, Qt::gray, Qt::green, Qt::blue};
 
-    for(int mPoint = 0; mPoint < 1000; mPoint++) {
+        tr.setColor(colors[rand() % colors.size()]);
 
-        auto p = points[mPoint];
-        double lat = p.latitude;
-        double lon = p.longitude;
-        std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
-        tr.points << createVisualPoint(p.longitude, p.latitude);
+        for(auto mPoint: mVehicle.second.points) {
+            double lat = mPoint.latitude;
+            double lon = mPoint.longitude;
+            //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
+            tr.points << createVisualPoint(mPoint.longitude, mPoint.latitude);
+        }
+
+        doAddTrack(tr);
     }
+
+//    auto &points = datafull.vehicles["X9600000000000430"].points;
+
+//    for(int mPoint = 0; mPoint < 1000; mPoint++) {
+
+//        auto p = points[mPoint];
+//        double lat = p.latitude;
+//        double lon = p.longitude;
+//        std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
+//        tr.points << createVisualPoint(p.longitude, p.latitude);
+//    }
 
     //tr.points
 //            << createVisualPoint(55.76880888888889, 37.499275555555556)
@@ -60,5 +77,5 @@ void Backend::onMapComplete()
    //         << createVisualPoint(56.33794666666667,
    // 43.881080000000004);
 //            << createVisualPoint( 55.768813333333334, 37.499226666666665);
-    doAddTrack(tr);
+
 }

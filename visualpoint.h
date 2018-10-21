@@ -11,12 +11,12 @@ class VisualPoint
     Q_PROPERTY(double latitude READ getLatitude WRITE setLatitude )
     Q_PROPERTY(double longitude READ getLongitude WRITE setLongitude)
 public:
-    double m_latitude;
-    double m_longitude;
-
     VisualPoint();
     VisualPoint(const VisualPoint& parent);
     VisualPoint(double lat, double lon) {setLatitude(lat); setLongitude(lon);}
+
+    double m_latitude;
+    double m_longitude;
 
     double getLatitude() const {return m_latitude;}
     double getLongitude() const {return m_longitude;}

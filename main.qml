@@ -111,14 +111,12 @@ Window {
     Connections {
         target: backend
         onDoAddTrack: {
-            var geocode = []
-            for(var mId in vtrack.points)
-                geocode.push({"latitude": vtrack.points[mId].latitude, "longitude": vtrack.points[mId].longitude})
-            addPolyline({path:geocode})
-            for(var mId in vtrack.points)
-                addPoint(QtPositioning.coordinate(vtrack.points[mId].latitude, vtrack.points[mId].longitude))
+            addPolyline({"path":vtrack.points, "line.color": vtrack.color})
+//            for(var mId in vtrack.points)
+//                addPoint({"center": QtPositioning.coordinate(vtrack.points[mId].latitude, vtrack.points[mId].longitude)})
             map.center = QtPositioning.coordinate(vtrack.points[0].latitude,vtrack.points[0].longitude)
-            addPoint
+
+
         }
     }
 

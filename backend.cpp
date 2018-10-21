@@ -31,7 +31,6 @@ void Backend::onMapComplete()
 {
     qDebug("tesatda");
 
-
 #ifndef __APPLE__
     std::string fileList = "/home/coolone/gaz/data/result/processed_files.txt";
 #else
@@ -152,5 +151,15 @@ void Backend::onVinSelect(QString vin)
     std::cerr<<"--------- Finish add points3"<<std::endl;
 
     doAddTrack(tr3);
+//    for(auto mVehicle: { *datafull.vehicles.begin()}) {
+//        auto mPoints = mVehicle.second.points;
+//        auto lowPoint = DataPoint();
+//        lowPoint.timestamp = unixtimestamp;
+//        auto lower = std::lower_bound(mPoints.begin(), mPoints.end(), lowPoint);
+//        if(lower != mPoints.end())
+//        {
+//            doSwitchPoint(VisualPoint(lower.base()->longitude, lower.base()->latitude, lower.base()->timestamp));
+//        }
+//    }
 }
 

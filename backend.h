@@ -1,6 +1,7 @@
 #ifndef BACKEND_H
 #define BACKEND_H
 
+#include "datafull.h"
 #include "visualtrack.h"
 
 #include <QObject>
@@ -11,7 +12,6 @@ class Backend : public QObject
     Q_OBJECT
 
     public:
-        DataFull datafull;
 
         explicit Backend(QObject *parent = nullptr);
 
@@ -21,9 +21,11 @@ class Backend : public QObject
         Q_INVOKABLE void onVinSelect(QString vin);
 
 
+    DataFull datafull;
+
 signals:
     void doAddTrack(VisualTrack vtrack);
-    void doAddPoint(VisualPoint vpoint);
+    void doSwitchPoint(VisualPoint vpoint);
 };
 
 #endif // BACKEND_H

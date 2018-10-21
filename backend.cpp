@@ -96,14 +96,6 @@ void Backend::onMapComplete()
     for(int mPoint = 0; mPoint < 5000; mPoint++) {
 
         auto p = points2[mPoint];
-<<<<<<< HEAD
-//        double lat = p.latitude;
-//        double lon = p.longitude;
-=======
-        //double lat = p.latitude;
-        //double lon = p.longitude;
->>>>>>> c0199be63db4b1286b6f0dc957f936709654db6e
-        //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr2.points << createVisualPoint(p.longitude, p.latitude, p.timestamp);
     }
 

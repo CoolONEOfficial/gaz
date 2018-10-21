@@ -165,7 +165,8 @@ Window {
 
             addPoint({"center": vpoint}, function(sprite){switchPoint = sprite})
 
-            map.center = vpoint
+            map.center.latitude = vpoint.latitude
+            map.center.longitude = vpoint.latitude
         }
 
         onDoAddTrack: {
@@ -182,20 +183,6 @@ Window {
 //            }
 
             map.center = QtPositioning.coordinate(vtrack.points[0].latitude,vtrack.points[0].longitude)
-/*
-            var vinExists = false
-            var vinId
-            for(var mVinId in vinArr)
-                if(vinArr[mVinId] == vtrack.vin) {
-                    vinExists = true;
-                    vinId = mVinId
-                    break;
-                }
-
-            if(!vinExists) {
-                vinArr.push(vtrack.vin);
-                vinId = vinArr.length
-            }
 
 
             if(start > vtrack.points[0].timestamp)
@@ -211,12 +198,11 @@ Window {
                             {
                                 "parent": timeline,
                                 x: (5 + (mTime / timelen * (window.width - 16))),
-                                y: timeline.height / (vinArr.length+1) * vinId - 3,
+                                y: timeline.height,
                                 color: vtrack.color
                             }
                             )
             }
-            */
         }
     }
 

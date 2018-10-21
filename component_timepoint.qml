@@ -4,8 +4,7 @@ import QtLocation 5.6
 Rectangle {
     width: 6
     height: 6
-    color: 'red'
-    border.color: 'black'
-    border.width: 1
+    color: 'green'
+    opacity: 0.5
 }
 

@@ -155,7 +155,7 @@ Window {
         property var end
         property var timelen
 
-        property var graph: []
+        property var graphFuel: []
 
         property var switchPoint
 
@@ -206,11 +206,11 @@ Window {
             var mX = 0;
             var mY = canvas.height / 2;
 
-            for(mVec in graph.graph) {
-                mX += mVec.x;
-                mY -= mVec.y;
+            for(var mVecId in graph.graph) {
+                mX =  graph.graph[mVecId].x;
+                mY = 100-graph.graph[mVecId].y;
 
-                graph.push([mX,mY]);
+                graphFuel.push([mX,mY]);
             }
 
 
@@ -298,27 +298,48 @@ Window {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 100
+        height: 300
         onPaint: {
-            if(typeof graph !== "undefined") {
-                var ctx = getContext("2d")
+            var fuel = conn.graphFuel;
 
-                ctx.fillStyle = "white"
+            console.log("Canvas paint: " + fuel)
+
+            var con = conn
+//            if(typeof conn.graphFuel !== "undefined" &&
+//                    conn.graphFuel.length > 0) {
+                var ctx = canvas.getContext("2d")
+
+            ctx.beginPath()
+
+                ctx.fillStyle = "red"
+
+
 
                 ctx.lineWidth = 15;
                 ctx.strokeStyle = "red"
-                ctx.beginPath()
 
-                var startt = conn.graph[0]
+               // ctx.moveTo(0s,0);
+                //ctx.lineTo(100, 100);
 
-                ctx.moveTo(startt[0] * window.width, startt[1] * window.height)
+                var startt = conn.graphFuel[0]
 
-                for(var mCoordId in conn.graph) {
-                    ctx.lineTo(conn.graph[mCoordId][0], conn.graph[mCoordId][1])
+            console.log("sx=",startt[0]," sy",startt[1])
+
+                ctx.moveTo(startt[0], startt[1])
+
+
+
+                for(var mCoordId in conn.graphFuel) {
+                    var sx = conn.graphFuel[mCoordId][0]*window.width
+                    var sy = conn.graphFuel[mCoordId][1]
+                    console.log("sx=",sx," sy=",sy)
+
+                    ctx.lineTo(sx, sy)
                 }
+
                 ctx.closePath()
                 ctx.stroke()
-            }
+            //}
         }
     }
 

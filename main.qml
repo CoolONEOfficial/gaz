@@ -181,18 +181,31 @@ Window {
             end = vtrack.points[vtrack.points.length-1].timestamp
             timelen = end - start
 
-            for(var mId in vtrack.points) {
-                var mPoint = vtrack.points[mId]
-                var mTime = mPoint.timestamp - start
-                addTimePoint(
-                            {
-                                "parent": timeline,
-                                x: (5 + (mTime / timelen * (window.width - 16))),
-                                y: timeline.height,
-                                color: vtrack.color
-                            }
-                            )
+//            for(var mId in vtrack.points) {
+//                var mPoint = vtrack.points[mId]
+//                var mTime = mPoint.timestamp - start
+//                addTimePoint(
+//                            {
+//                                "parent": timeline,
+//                                x: (5 + (mTime / timelen * (window.width - 16))),
+//                                y: timeline.height,
+//                                color: vtrack.color
+//                            }
+//                            )
+//            }
+        }
+
+        onDoDrawGraph: {
+            console.log("----------- onDoDrawGraph ----------");
+            console.log(graph);
+            for(var pnt in graph.graph)
+            {
+                var dat = graph.graph[pnt]
+                console.log("pnt=", pnt, "dat=", dat);
             }
+
+            console.log("----------- end of onDoDrawGraph ----------");
+
         }
     }
 

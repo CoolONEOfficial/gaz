@@ -169,56 +169,30 @@ Window {
 
             map.center.latitude = vpoint.latitude
             map.center.longitude = vpoint.longitude
-
         }
 
         onDoAddTrack: {
 
             addPolyline({"path":vtrack.points, "line.color": vtrack.color})
-//            var points = []
-//            for(var mId in vtrack.points) {
-//////                for(var mPointId in points)
-//////                    if(checkCollision(points[mPointId], vtrack.points[mId]))
-//////                        break;
 
-//////                points.push(vtrack.points[mId])
-////                addPoint({"center": QtPositioning.coordinate(vtrack.points[mId].latitude, vtrack.points[mId].longitude)})
-//            }
-
-            map.center = QtPositioning.coordinate(vtrack.points[0].latitude,vtrack.points[0].longitude)
-
-            var vinExists = false
-            var vinId
-            for(var mVinId in vinArr)
-                if(vinArr[mVinId] == vtrack.vin) {
-                    vinExists = true;
-                    vinId = mVinId
-                    break;
-                }
-
-            if(!vinExists) {
-                vinArr.push(vtrack.vin);
-                vinId = vinArr.length
-            }
-
+            map.center = QtPositioning.coordinate(vtrack.points[0])
 
             start = vtrack.points[0].timestamp
             end = vtrack.points[vtrack.points.length-1].timestamp
             timelen = end - start
 
-//            for(var mId in vtrack.points) {
-//                var mPoint = vtrack.points[mId]
-//                var mTime = mPoint.timestamp - start
-//                addTimePoint(
-//                            {
-//                                "parent": timeline,
-//                                x: (5 + (mTime / timelen * (window.width - 16))),
-//                                y: timeline.height / (vinArr.length+1) * vinId - 3,
-//                                color: vtrack.color
-//                            }
-//                            )
-//            }
-
+            for(var mId in vtrack.points) {
+                var mPoint = vtrack.points[mId]
+                var mTime = mPoint.timestamp - start
+                addTimePoint(
+                            {
+                                "parent": timeline,
+                                x: (5 + (mTime / timelen * (window.width - 16))),
+                                y: timeline.height,
+                                color: vtrack.color
+                            }
+                            )
+            }
         }
     }
 

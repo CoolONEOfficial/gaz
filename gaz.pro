@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     datafull.cpp \
     visualpoint.cpp \
     visualtrack.cpp \
-    valuepoint.cpp
+    valuepoint.cpp \
+    graph.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,6 +24,7 @@ HEADERS += \
     datafull.h \
     visualpoint.h \
     visualtrack.h \
-    valuepoint.h
+    valuepoint.h \
+    graph.h
 
 CONFIG+=qml_debug

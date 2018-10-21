@@ -96,10 +96,6 @@ void Backend::onMapComplete()
     for(int mPoint = 0; mPoint < 5000; mPoint++) {
 
         auto p = points2[mPoint];
-//        double lat = p.latitude;
-//        double lon = p.longitude;
-
-        //std::cerr<<"lon=" << lon << " lat=" << lat << std::endl;
         tr2.points << createVisualPoint( p.latitude,p.longitude, p.timestamp);
     }
 
@@ -124,7 +120,6 @@ void Backend::onMapComplete()
     std::cerr<<"--------- Finish add points3"<<std::endl;
 
     doAddTrack(tr3);
-
 }
 
 void Backend::onTimeSlider(int unixtimestamp)

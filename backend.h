@@ -27,6 +27,7 @@ class Backend : public QObject
 signals:
     void doAddTrack(VisualTrack vtrack);
     void doSwitchPoint(VisualPoint vpoint);
+    void doDrawGraph();
 };
 
 #endif // BACKEND_H

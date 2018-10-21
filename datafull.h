@@ -31,9 +31,6 @@ public:
         {
             std::cerr<<"---------------Start sort"<<std::endl;
             vin.second.sort();
-
-
-
             std::cerr<<"---------------End sort"<<std::endl;
         }
     }
@@ -70,8 +67,24 @@ public:
         std::cerr<<"====== num point="<<num<<std::endl;
 
         //printInfo();
-        sortAll();
 
+
+    }
+
+    void process_all_timestamps()
+    {
+        for( auto &vin: vehicles)
+        {
+            vin.second.process_timestamps();
+        }
+    }
+
+    void process_all_odometr()
+    {
+        for( auto &vin: vehicles )
+        {
+            auto result = vin.second.process_odometr();
+        }
     }
 
     void process_all(const std::string& fileList)
@@ -91,6 +104,9 @@ public:
             }
 
             printInfo();
+            sortAll();
+            //process_all_timestamps();
+            process_all_odometr();
         }
         else
         {

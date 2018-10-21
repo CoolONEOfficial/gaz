@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>component.qml</file>
+        <file>component_polyline.qml</file>
+        <file>component_point.qml</file>
     </qresource>
 </RCC>

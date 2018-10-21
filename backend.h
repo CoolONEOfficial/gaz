@@ -20,6 +20,7 @@ class Backend : public QObject
         Q_INVOKABLE void onTimeSlider(int unixtimestamp);
         Q_INVOKABLE void onVinSelect(QString vin);
 
+        QString selectedVin;
 
     DataFull datafull;
 

@@ -110,8 +110,11 @@ public:
         //std::cerr<<"LAT="<<lines[7]<<std::endl;
         //std::cerr<<"LON="<<lines[8]<<std::endl;
 
-        latitude = std::stod(lines[7]);
-        longitude = std::stod(lines[8]);
+        //latitude = std::stod(lines[7]);
+        //longitude = std::stod(lines[8]);
+
+        latitude = std::stod(lines[8]);
+        longitude = std::stod(lines[7]);
         vin = lines[5];
         timestamp = std::stoi(lines[1]);
         gps_timestamp = std::stoi(lines[14]);

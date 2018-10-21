@@ -155,6 +155,8 @@ Window {
         property var end
         property var timelen
 
+        property var graph: []
+
         property var switchPoint
 
         target: backend
@@ -195,16 +197,22 @@ Window {
 //            }
         }
 
+
+
+
         onDoDrawGraph: {
-            console.log("----------- onDoDrawGraph ----------");
-            console.log(graph);
-            for(var pnt in graph.graph)
-            {
-                var dat = graph.graph[pnt]
-                console.log("pnt=", pnt, "dat=", dat);
+
+
+            var mX = 0;
+            var mY = canvas.height / 2;
+
+            for(mVec in graph.graph) {
+                mX += mVec.x;
+                mY -= mVec.y;
+
+                graph.push([mX,mY]);
             }
 
-            console.log("----------- end of onDoDrawGraph ----------");
 
         }
     }
@@ -281,6 +289,33 @@ Window {
                     }
                 }
             }
+        }
+    }
+
+    Canvas {
+        id: canvas
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 100
+        onPaint: {
+            var ctx = getContext("2d")
+
+            ctx.fillStyle = "white"
+
+            ctx.lineWidth = 15;
+            ctx.strokeStyle = "red"
+            ctx.beginPath()
+
+            var startt = conn.graph[0]
+
+            ctx.moveTo(startt[0] * window.width, startt[1] * window.height)
+
+            for(var mCoordId in conn.graph) {
+                ctx.lineTo(conn.graph[mCoordId][0], conn.graph[mCoordId][1])
+            }
+            ctx.closePath()
+            ctx.stroke()
         }
     }
 

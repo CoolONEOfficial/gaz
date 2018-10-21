@@ -129,6 +129,25 @@ void Backend::onMapComplete()
 void Backend::onTimeSlider(int unixtimestamp)
 {
     std::cerr<<"---------- onTimeSlider" <<std::endl;
+
+    for(auto mVehicle: { *datafull.vehicles.begin()}) {
+        auto &mPoints = mVehicle.second.points;
+        auto lowPoint = DataPoint();
+        lowPoint.timestamp = unixtimestamp;
+        auto lower = std::lower_bound(mPoints.begin(), mPoints.end(), lowPoint);
+        std::cerr<<"unixtimestamp="<<unixtimestamp<<std::endl;
+        if(lower != mPoints.end())
+        {
+            std::cerr<<"---------- Found"<<std::endl;
+            std::cerr<<"lat="<<lower->latitude
+                     <<"lon="<<lower->longitude<<std::endl;
+            doSwitchPoint(VisualPoint(lower.base()->longitude, lower.base()->latitude, lower.base()->timestamp));
+        }
+        else
+        {
+            std::cerr<<"------- Not found"<<std::endl;
+        }
+    }
 }
 
 void Backend::onVinSelect(QString vin)
@@ -151,15 +170,6 @@ void Backend::onVinSelect(QString vin)
     std::cerr<<"--------- Finish add points3"<<std::endl;
 
     doAddTrack(tr3);
-//    for(auto mVehicle: { *datafull.vehicles.begin()}) {
-//        auto mPoints = mVehicle.second.points;
-//        auto lowPoint = DataPoint();
-//        lowPoint.timestamp = unixtimestamp;
-//        auto lower = std::lower_bound(mPoints.begin(), mPoints.end(), lowPoint);
-//        if(lower != mPoints.end())
-//        {
-//            doSwitchPoint(VisualPoint(lower.base()->longitude, lower.base()->latitude, lower.base()->timestamp));
-//        }
-//    }
+
 }
 

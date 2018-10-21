@@ -206,7 +206,7 @@ Window {
             var mX = 0;
             var mY = canvas.height / 2;
 
-            for(mVec in graph.graph) {
+            for(var mVec in graph.graph) {
                 mX += mVec.x;
                 mY -= mVec.y;
 
@@ -307,7 +307,10 @@ Window {
             ctx.strokeStyle = "red"
             ctx.beginPath()
 
-            var startt = conn.graph[0]
+            var startt = conn.graph
+
+            //console.log(startt);
+
 
             ctx.moveTo(startt[0] * window.width, startt[1] * window.height)
 

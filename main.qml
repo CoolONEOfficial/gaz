@@ -151,6 +151,7 @@ Window {
 
         target: backend
         onDoAddTrack: {
+
             addPolyline({"path":vtrack.points, "line.color": vtrack.color})
 //            var points = []
 //            for(var mId in vtrack.points) {

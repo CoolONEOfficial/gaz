@@ -16,6 +16,9 @@ public:
     std::string vin;
     size_t timestamp;
     size_t gps_timestamp;
+    float can_fuel_level;
+    float gps_odometer;
+    int req_id;
 
 public:
     void set(float lat, float lon)
@@ -70,7 +73,10 @@ public:
         std::cerr<<"lon="<<longitude<<"="<<std::endl;
         std::cerr<<"vin="<<vin<<"="<<std::endl;
         std::cerr<<"time_stamp="<<timestamp<<std::endl;
-        std::cerr<<"gps_timestamp"<<gps_timestamp<<std::endl;
+        std::cerr<<"gps_timestamp="<<gps_timestamp<<std::endl;
+        std::cerr<<"can_fuel_level="<<can_fuel_level<<std::endl;
+        std::cerr<<"gps_odometer="<<gps_odometer<<std::endl;
+        std::cerr<<"req_id="<<req_id<<std::endl;
 
     }
 
@@ -79,7 +85,7 @@ public:
         return timestamp < other.timestamp;
     }
 
-    bool read(std::ifstream &file)
+    int read(std::ifstream &file)
     {
         //qDebug("-----Point-------");
 
@@ -90,7 +96,7 @@ public:
         {
             std::getline(file, lines[k]);
             if( k==0 && lines[0].empty() )
-                return false;
+                return -1;
 
 
             // qDebug(lines[k].c_str());
@@ -101,17 +107,36 @@ public:
             //qDebug(s.c_str());
         }
 
-        std::cerr<<"LAT="<<lines[7]<<std::endl;
-        std::cerr<<"LON="<<lines[8]<<std::endl;
+        //std::cerr<<"LAT="<<lines[7]<<std::endl;
+        //std::cerr<<"LON="<<lines[8]<<std::endl;
 
         latitude = std::stod(lines[7]);
         longitude = std::stod(lines[8]);
         vin = lines[5];
         timestamp = std::stoi(lines[1]);
         gps_timestamp = std::stoi(lines[14]);
+        req_id = std::stoi(lines[2]);
+        //std::cerr << "----- Fuel str="<<lines[26] << std::endl;
+
+        try
+        {
+            can_fuel_level = std::stof(lines[27]); //26
+        }
+        catch(...)
+        {
+            //std::cerr << "------------------------- Fuel str="<<lines[26] << std::endl;
+
+            can_fuel_level = -1;
+            //return -1;
+        }
+
+        gps_odometer = std::stof(lines[22]);
 
         if( latitude > 100 || longitude > 100 )
-            return false;
+            return 0;
+
+
+
         //print();
         //std::cout<<"hello bbb";
 
@@ -120,7 +145,7 @@ public:
 
 
         //qDebug("-------------------");
-        return true;
+        return 1;
 
 
 

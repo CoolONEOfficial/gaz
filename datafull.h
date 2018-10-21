@@ -45,19 +45,21 @@ public:
             //for(int k = 0; k < 20; k++)
             {
                 DataPoint point;
-                bool res = point.read(file);
+                int res = point.read(file);
 
                 std::string vin = point.vin;
 
 
-                if( !res )
+                if( res < 0 )
                 {
                     std::cerr<<"=================";
                     break;
                 }
 
-                vehicles[vin].addPoint(point);
-
+                if(res > 0)
+                {
+                    vehicles[vin].addPoint(point);
+                }
                 num++;
             }
         }
@@ -65,8 +67,24 @@ public:
         std::cerr<<"====== num point="<<num<<std::endl;
 
         //printInfo();
-        sortAll();
 
+
+    }
+
+    void process_all_timestamps()
+    {
+        for( auto &vin: vehicles)
+        {
+            vin.second.process_timestamps();
+        }
+    }
+
+    void process_all_odometr()
+    {
+        for( auto &vin: vehicles )
+        {
+            auto result = vin.second.process_odometr();
+        }
     }
 
     void process_all(const std::string& fileList)
@@ -86,6 +104,9 @@ public:
             }
 
             printInfo();
+            sortAll();
+            //process_all_timestamps();
+            process_all_odometr();
         }
         else
         {
